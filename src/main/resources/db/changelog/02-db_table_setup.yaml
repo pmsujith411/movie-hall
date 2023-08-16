@@ -1,0 +1,438 @@
+databaseChangeLog:
+  - changeSet:
+      id: createTownTable
+      author: sujith
+      changes:
+        - createTable:
+            tableName: Town
+            columns:
+              - column:
+                  name: town_id
+                  type: varchar(20)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: town_name
+                  type: varchar(50)
+              - column:
+                  name: created_on
+                  type: datetime
+              - column:
+                  name: updated_on
+                  type: datetime
+  - changeSet:
+      id: createMovieHallTable
+      author: sujith
+      changes:
+        - createTable:
+            tableName: MovieHall
+            columns:
+              - column:
+                  name: hall_id
+                  type: varchar(20)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: hall_name
+                  type: varchar(50)
+              - column:
+                  name: town_id
+                  type: varchar(20)
+              - column:
+                  name: status
+                  type: boolean
+              - column:
+                  name: created_on
+                  type: datetime
+              - column:
+                  name: updated_on
+                  type: datetime
+            constraints:
+              - foreignKey:
+                  name: FK_MovieHall.town_id
+                  referencedTableName: Town
+                  referencedColumnNames: town_id
+  - changeSet:
+      id: createScreenTable
+      author: sujith
+      changes:
+        - createTable:
+            tableName: Screen
+            columns:
+              - column:
+                  name: screen_id
+                  type: varchar(20)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: screen_number
+                  type: int
+              - column:
+                  name: hall_id
+                  type: varchar(20)
+              - column:
+                  name: status
+                  type: boolean
+              - column:
+                  name: seat_count
+                  type: int
+              - column:
+                  name: created_on
+                  type: datetime
+              - column:
+                  name: updated_on
+                  type: datetime
+            constraints:
+              - foreignKey:
+                  name: FK_Screen.hall_id
+                  referencedTableName: MovieHall
+                  referencedColumnNames: hall_id
+  - changeSet:
+      id: createSeatTable
+      author: sujith
+      changes:
+        - createTable:
+            tableName: Seat
+            columns:
+              - column:
+                  name: seat_id
+                  type: varchar(20)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: screen_id
+                  type: varchar(20)
+              - column:
+                  name: seat_number
+                  type: int
+              - column:
+                  name: seat_type
+                  type: varchar(20)
+              - column:
+                  name: status
+                  type: boolean
+                          - column:
+                          name: created_on
+                          type: datetime
+                            - column:
+                                name: updated_on
+                                type: datetime
+            constraints:
+              - foreignKey:
+                  name: FK_Seat.screen_id
+                  referencedColumnNames: screen_id
+                  referencedTableName: Screen
+              - foreignKey:
+                  name: FK_Seat.seat_type
+                  referencedColumnNames: type_id
+                  referencedTableName: SeatType
+  - changeSet:
+      id: createSeatTypeTable
+      author: sujith
+      changes:
+        - createTable:
+            tableName: SeatType
+            columns:
+              - column:
+                  name: type_id
+                  type: varchar(20)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: type
+                  type: varchar(50)
+              - column:
+                  name: rate
+                  type: int
+              - column:
+                  name: created_on
+                  type: datetime
+              - column:
+                  name: updated_on
+                  type: datetime
+  - changeSet:
+      id: createMovieTable
+      author: sujith
+      changes:
+        - createTable:
+            tableName: Movie
+            columns:
+              - column:
+                  name: movie_id
+                  type: varchar(20)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: movie_name
+                  type: varchar(50)
+              - column:
+                  name: genre
+                  type: varchar(50)
+              - column:
+                  name: length
+                  type: varchar(50)
+              - column:
+                  name: language
+                  type: varchar(50)
+              - column:
+                  name: release_date
+                  type: date
+              - column:
+                  name: status
+                  type: boolean
+              - column:
+                  name: from_date
+                  type: date
+              - column:
+                  name: to_date
+                  type: date
+              - column:
+                  name: created_on
+                  type: datetime
+              - column:
+                  name: updated_on
+                  type: datetime
+  - changeSet:
+      id: createMovieScheduleTable
+      author: sujith
+      changes:
+        - createTable:
+            tableName: MovieSchedule
+            columns:
+              - column:
+                  name: schedule_id
+                  type: varchar(20)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: movie_id
+                  type: varchar(20)
+              - column:
+                  name: screen_id
+                  type: varchar(20)
+              - column:
+                  name: from_date
+                  type: date
+              - column:
+                  name: to_date
+                  type: date
+              - column:
+                  name: time_slot
+                  type: time
+              - column:
+                  name: created_on
+                  type: datetime
+              - column:
+                  name: updated_on
+                  type: datetime
+            constraints:
+              - foreignKey:
+                  name: FK_MovieSchedule.screen_id
+                  referencedTableName: Screen
+                  referencedColumnNames: screen_id
+              - foreignKey:
+                  name: FK_MovieSchedule.movie_id
+                  referencedTableName: Movie
+                  referencedColumnNames: movie_id
+  - changeSet:
+      id: createTableUser
+      author: sujith
+      changes:
+        - createTable:
+            tableName: User
+            columns:
+              - column:
+                  name: user_id
+                  type: varchar(20)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_name
+                  type: varchar(50)
+              - column:
+                  name: password
+                  type: varchar(50)
+              - column:
+                  name: email_id
+                  type: varchar(50)
+              - column:
+                  name: status
+                  type: boolean
+              - column:
+                  name: created_on
+                  type: datetime
+              - column:
+                  name: updated_on
+                  type: datetime
+  - changeSet:
+      id: createMovieTicketTable
+      author: sujith
+      changes:
+        - createTable:
+            tableName: MovieTicket
+            columns:
+              - column:
+                  name: ticket_id
+                  type: varchar(20)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: varchar(20)
+              - column:
+                  name: schedule_id
+                  type: varchar(20)
+              - column:
+                  name: payment_id
+                  type: varchar(20)
+              - column:
+                  name: booking_amount
+                  type: int
+              - column:
+                  name: booking_status
+                  type: varchar(20)
+              - column:
+                  name: show_date
+                  type: date
+              - column:
+                  name: created_on
+                  type: datetime
+              - column:
+                  name: updated_on
+                  type: datetime
+            constraints:
+              - foreignKey:
+                  name: FK_MovieTicket.user_id
+                  referencedTableName: User
+                  referencedColumnNames: user_id
+              - foreignKey:
+                  name: FK_MovieTicket.schedule_id
+                  referencedTableName: MovieSchedule
+                  referencedColumnNames: schedule_id
+              - foreignKey:
+                  name: FK_MovieTicket.payment_id
+                  referencedTableName: Payment
+                  referencedColumnNames: payment_id
+  - changeSet:
+      id: createRoleTable
+      author: sujith
+      changes:
+        - createTable:
+            tableName: Role
+            columns:
+              - column:
+                  name: role_id
+                  type: VARCHAR(20)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: role_name
+                  type: VARCHAR(50)
+              - column:
+                  name: created_on
+                  type: DATETIME
+              - column:
+                  name: updated_on
+                  type: DATETIME
+  - changeSet:
+      id: createPaymentTable
+      author: sujith
+      changes:
+        - createTable:
+            tableName: Payment
+            columns:
+              - column:
+                  name: payment_id
+                  type: varchar(20)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: varchar(20)
+              - column:
+                  name: ticket_id
+                  type: varchar(20)
+              - column:
+                  name: payment_type
+                  type: varchar(20)
+              - column:
+                  name: payment_amount
+                  type: integer
+              - column:
+                  name: payment_status
+                  type: varchar(20)
+              - column:
+                  name: created_on
+                  type: datetime
+              - column:
+                  name: updated_on
+                  type: datetime
+            primaryKey:
+              - column:
+                  name: payment_id
+            foreignKeys:
+              - foreignKey:
+                  name: FK_Payment.user_id
+                  referencedColumnNames: user_id
+                  referencedTableName: User
+  - changeSet:
+      id: create_user_role_table
+      author: sujith
+      changes:
+        - createTable:
+            tableName: UserRole
+            columns:
+              - column:
+                  name: user_id
+                  type: VARCHAR(20)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: role_id
+                  type: VARCHAR(20)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: created_on
+                  type: DATETIME
+              - column:
+                  name: updated_on
+                  type: DATETIME
+            primaryKey:
+              - columnNames: user_id, role_id
+  - changeSet:
+      id: createMovieTicketSeatTable
+      author: sujith
+      changes:
+        - createTable:
+            tableName: MovieTicketSeat
+            columns:
+              - column:
+                  name: ticket_id
+                  type: VARCHAR(20)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: seat_id
+                  type: VARCHAR(20)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: created_on
+                  type: DATETIME
+              - column:
+                  name: updated_on
+                  type: DATETIME
+            primaryKey:
+              - columnNames: ticket_id, seat_id
