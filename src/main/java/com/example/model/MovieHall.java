@@ -16,7 +16,7 @@ public class MovieHall implements Serializable {
 
     private String townId;
 
-    private Boolean status;
+    private boolean status;
 
     private OffsetDateTime createdOn;
 

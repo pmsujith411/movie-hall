@@ -22,7 +22,7 @@ public class Movie implements Serializable {
 
     private OffsetDateTime releaseDate;
 
-    private Boolean status;
+    private boolean status;
 
     private OffsetDateTime createdOn;
 

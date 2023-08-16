@@ -16,7 +16,7 @@ public class Screen implements Serializable {
 
     private String hallId;
 
-    private Boolean status;
+    private boolean status;
 
     private Integer seatCount;
 

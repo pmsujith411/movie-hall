@@ -14,7 +14,7 @@ public class SeatType implements Serializable {
 
     private String type;
 
-    private Integer rate;
+    private Float rate;
 
     private OffsetDateTime createdOn;
 

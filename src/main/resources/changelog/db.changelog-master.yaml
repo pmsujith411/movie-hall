@@ -1,3 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: db/changelog/01-db_initialsetup.yaml

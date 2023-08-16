@@ -18,7 +18,7 @@ public class Seat implements Serializable {
 
     private String seatType;
 
-    private Boolean status;
+    private boolean status;
 
     private OffsetDateTime createdOn;
 

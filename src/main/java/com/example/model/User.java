@@ -18,7 +18,7 @@ public class User implements Serializable {
 
     private String emailId;
 
-    private Boolean status;
+    private boolean status;
 
     private OffsetDateTime createdOn;
 
