@@ -13,11 +13,8 @@ public class TicketBookingRequestDto implements Serializable {
     private static final long serialVersionUID = -1539783739608169095L;
 
     @NotBlank
-    private String userId;
-
-    @NotBlank
     private String scheduleId;
 
     @NotEmpty
-    private List<String> seats;
+    private List<String> seatIds;
 }

@@ -61,3 +61,4 @@ Use SpringBoot.
 1) Please fork this project in your git lab.
 2) For each task reviewer will create an issue in the project assign it.
 3) After completion of each task update the PR in the issue with comments.
+4) Use SpringFox for generating swagger documentation

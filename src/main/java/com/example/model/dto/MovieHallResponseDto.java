@@ -14,5 +14,5 @@ public class MovieHallResponseDto implements Serializable {
 
     private String hallName;
 
-    private List<ScreenResponseDto> screens;
+    private Integer totalScreens;
 }

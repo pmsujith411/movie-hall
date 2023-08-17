@@ -12,6 +12,4 @@ public class ScreenResponseDto  implements Serializable {
     private String screenId;
 
     private Integer screenNumber;
-
-    private Integer seatCount;
 }

@@ -20,12 +20,14 @@ public class SwaggerConfiguration {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.example.demo.controller"))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .apiInfo(apiInfo())
+                .useDefaultResponseMessages(false);
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("Movie Hall Application")
-                .description("Movie Hall Application API reference for developers")
+                .description("Movie Hall Application API reference")
                 .version("1.0").build();
     }
 }
