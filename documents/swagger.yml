@@ -1,0 +1,352 @@
+swagger: '2.0'
+info:
+  description: Api Documentation
+  version: '1.0'
+  title: Api Documentation
+  termsOfService: urn:tos
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
+host: localhost:8080
+basePath: /moviehall
+tags:
+  - name: movie-hall-controller
+    description: Movie Hall Controller
+paths:
+  /book-ticket:
+    post:
+      tags:
+        - movie-hall-controller
+      summary: bookTicket
+      operationId: bookTicketUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: ticketBookingRequest
+          description: ticketBookingRequest
+          required: true
+          schema:
+            $ref: '#/definitions/TicketBookingRequestDto'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /cancel-ticket/{userId}/{ticketId}:
+    post:
+      tags:
+        - movie-hall-controller
+      summary: cancelTicket
+      operationId: cancelTicketUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: ticketId
+          in: path
+          description: ticketId
+          required: true
+          type: string
+        - name: userId
+          in: path
+          description: userId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /movie-hall/{townId}:
+    get:
+      tags:
+        - movie-hall-controller
+      summary: getMovieHall
+      operationId: getMovieHallUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: townId
+          in: path
+          description: townId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/MovieHallResponseDto'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /movie-upload:
+    post:
+      tags:
+        - movie-hall-controller
+      summary: uploadMovieSchedule
+      operationId: uploadMovieScheduleUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: movieScheduleRequest
+          description: movieScheduleRequest
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/MovieScheduleRequestDto'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /screen/{movieHallId}:
+    get:
+      tags:
+        - movie-hall-controller
+      summary: getScreen
+      operationId: getScreenUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: movieHallId
+          in: path
+          description: movieHallId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ScreenResponseDto'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /seat/{screenId}:
+    get:
+      tags:
+        - movie-hall-controller
+      summary: getAvailableSeat
+      operationId: getAvailableSeatUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: screenId
+          in: path
+          description: screenId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SeatResponseDto'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /ticket-report/{hallId}/{date}:
+    get:
+      tags:
+        - movie-hall-controller
+      summary: getSoldTicketReport
+      operationId: getSoldTicketReportUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: date
+          in: path
+          description: date
+          required: true
+          type: string
+          format: date
+        - name: hallId
+          in: path
+          description: hallId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TicketReportResponseDto'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /user/{emailId}/{roleId}:
+    post:
+      tags:
+        - movie-hall-controller
+      summary: updateRole
+      operationId: updateRoleUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: emailId
+          in: path
+          description: emailId
+          required: true
+          type: string
+        - name: roleId
+          in: path
+          description: roleId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+definitions:
+  MovieHallResponseDto:
+    type: object
+    properties:
+      hallId:
+        type: string
+      hallName:
+        type: string
+      screens:
+        type: array
+        items:
+          $ref: '#/definitions/ScreenResponseDto'
+    title: MovieHallResponseDto
+  MovieScheduleRequestDto:
+    type: object
+    properties:
+      fromDate:
+        type: string
+        format: date-time
+      movieId:
+        type: string
+      screenId:
+        type: string
+      showTime:
+        type: string
+      toDate:
+        type: string
+        format: date-time
+    title: MovieScheduleRequestDto
+  ScreenResponseDto:
+    type: object
+    properties:
+      screenId:
+        type: string
+      screenNumber:
+        type: integer
+        format: int32
+      seatCount:
+        type: integer
+        format: int32
+    title: ScreenResponseDto
+  SeatResponseDto:
+    type: object
+    properties:
+      seatId:
+        type: string
+      seatNumber:
+        type: integer
+        format: int32
+      seatType:
+        $ref: '#/definitions/SeatTypeResponseDto'
+    title: SeatResponseDto
+  SeatTypeResponseDto:
+    type: object
+    properties:
+      rate:
+        type: number
+        format: float
+      type:
+        type: string
+    title: SeatTypeResponseDto
+  TicketBookingRequestDto:
+    type: object
+    properties:
+      scheduleId:
+        type: string
+      seats:
+        type: array
+        items:
+          type: string
+      userId:
+        type: string
+    title: TicketBookingRequestDto
+  TicketReportResponseDto:
+    type: object
+    properties:
+      screenNumber:
+        type: string
+      totalRevenue:
+        type: number
+        format: float
+      totalTicketsSold:
+        type: string
+    title: TicketReportResponseDto
