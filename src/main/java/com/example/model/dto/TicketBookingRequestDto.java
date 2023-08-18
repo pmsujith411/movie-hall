@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,4 +18,13 @@ public class TicketBookingRequestDto implements Serializable {
 
     @NotEmpty
     private List<String> seatIds;
+
+    @NotBlank
+    private String paymentId;
+
+    @NotBlank
+    private String paymentType;
+
+    @NotNull
+    private Float paymentAmount;
 }
