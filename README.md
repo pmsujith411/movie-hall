@@ -64,17 +64,23 @@ Use SpringBoot.
 
 ## Flow of APIs
 ### User APIs
+#### Ticket booking
 1) call /movie-hall/{townId} to get all the movie halls in a town  
 2) call /available-screen/{movieHallId} to get the available screens for book tickets in a movie hall. 
 3) call /seat/{scheduleId} to get the available seats for the selected show(scheduleId)
 4) call /book-ticket to book the ticket for the selected seats and show 
-5) call /cancel-ticket/{ticketId} to cancel the booked ticket 
+
+#### Ticket cancellation
+1) call /cancel-ticket/{ticketId} 
 
 ### Admin APIs
-1) call /admin/ticket-report/{hallId}/{date} to generate the report 
-2) call /admin/user/{emailId}/{roleId} to update the role
+#### Generate report
+1) call /admin/ticket-report/{hallId}/{date} 
 
-#### Upload movie schedules flow
+#### Update role
+1) call /admin/user/{emailId}/{roleId}
+
+#### Upload movie schedules
 1) call /admin/movie to get the latest movies
 2) call /admin/screen/{movieHallId} to get all the screen for the selected movie hall
 3) call /movie-upload to upload new movie schedules(shows) with selected movies and screens
