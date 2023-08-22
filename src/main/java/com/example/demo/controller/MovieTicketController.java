@@ -1,10 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.model.dto.MovieHallResponseDto;
-import com.example.model.dto.MovieTicketResponseDto;
-import com.example.model.dto.AvailableScreenResponseDto;
-import com.example.model.dto.SeatResponseDto;
-import com.example.model.dto.TicketBookingRequestDto;
+import com.example.demo.model.dto.MovieHallResponseDto;
+import com.example.demo.model.dto.MovieTicketResponseDto;
+import com.example.demo.model.dto.AvailableScreenResponseDto;
+import com.example.demo.model.dto.SeatResponseDto;
+import com.example.demo.model.dto.TicketBookingRequestDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -26,12 +26,12 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Controller for MovieHall application user APIs
+ * Controller for MovieHall ticket booking/cancellation APIs
  */
 @RestController
 @Validated
-@Api(tags = "APIs for booking tickets in movie halls")
-public class MovieHallUserController {
+@Api(tags = "APIs for booking and cancelling tickets in movie halls")
+public class MovieTicketController {
 
     /**
      * API to fetch all movie halls for the given town
@@ -62,8 +62,8 @@ public class MovieHallUserController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 404, message = "movie hall not found")})
     @GetMapping("/available-screen/{movieHallId}")
-    public List<AvailableScreenResponseDto> getAvailableScreen(@RequestHeader("Authorization") String authorizationHeader,
-            @PathVariable("movieHallId") String movieHallId,
+    public List<AvailableScreenResponseDto> getAvailableScreen(
+            @RequestHeader("Authorization") String authorizationHeader, @PathVariable("movieHallId") String movieHallId,
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> date) {
         return null;
     }

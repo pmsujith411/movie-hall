@@ -1,4 +1,4 @@
-package com.example.enumeration;
+package com.example.demo.enumeration;
 
 public enum PaymentType {
 

@@ -1,6 +1,6 @@
-package com.example.model.entity;
+package com.example.demo.model.entity;
 
-import com.example.enumeration.PaymentType;
+import com.example.demo.enumeration.PaymentType;
 import lombok.Data;
 
 import java.io.Serializable;

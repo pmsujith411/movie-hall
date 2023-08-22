@@ -92,3 +92,4 @@ Use SpringBoot.
    1) @Api - to give information regarding the controller
    2) @ApiOperation - to give  information regarding the API
    3) @ApiResponses - to mention the status codes of the API
+4) Start the application and go to http://localhost:8080/moviehall/swagger-ui.html for viewing the swagger documentation
