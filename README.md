@@ -61,3 +61,34 @@ Use SpringBoot.
 1) Please fork this project in your git lab.
 2) For each task reviewer will create an issue in the project assign it.
 3) After completion of each task update the PR in the issue with comments.
+
+## Flow of APIs
+### User APIs
+#### Ticket booking
+1) call /movie-hall/{townId} to get all the movie halls in a town  
+2) call /available-screen/{movieHallId} to get the available screens for book tickets in a movie hall. 
+3) call /seat/{scheduleId} to get the available seats for the selected show(scheduleId)
+4) call /book-ticket to book the ticket for the selected seats and show 
+
+#### Ticket cancellation
+1) call /cancel-ticket/{ticketId} 
+
+### Admin APIs
+#### Generate report
+1) call /admin/ticket-report/{hallId}/{date} 
+
+#### Update role
+1) call /admin/user/{emailId}/{roleId}
+
+#### Upload movie schedules
+1) call /admin/movie to get the latest movies
+2) call /admin/screen/{movieHallId} to get all the screen for the selected movie hall
+3) call /movie-upload to upload new movie schedules(shows) with selected movies and screens
+
+## Instruction to generate swagger
+1) Add SpringFox dependency
+2) Add SwaggerConfiguration class in which we add controller package for which we want to add swagger documentation, API URLs to be included in the swagger and general information(title, description) regarding the swagger document.
+3) Use below annotations to customise the swagger documentation
+   1) @Api - to give information regarding the controller
+   2) @ApiOperation - to give  information regarding the API
+   3) @ApiResponses - to mention the status codes of the API

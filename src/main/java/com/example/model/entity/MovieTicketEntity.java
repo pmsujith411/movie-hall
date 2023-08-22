@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.model.entity;
 
 import com.example.enumeration.BookingStatus;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.time.OffsetDateTime;
 
 @Data
-public class MovieTicket implements Serializable {
+public class MovieTicketEntity implements Serializable {
 
     private static final long serialVersionUID = 7654944166912222729L;
 

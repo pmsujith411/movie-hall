@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.model.entity;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.time.OffsetDateTime;
 
 @Data
-public class Town implements Serializable {
+public class TownEntity implements Serializable {
 
     private static final long serialVersionUID = 1086633130699965771L;
 

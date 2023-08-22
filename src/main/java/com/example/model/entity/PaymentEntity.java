@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.model.entity;
 
 import com.example.enumeration.PaymentType;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.time.OffsetDateTime;
 
 @Data
-public class Payment implements Serializable {
+public class PaymentEntity implements Serializable {
 
     private static final long serialVersionUID = -2077594600679010019L;
 

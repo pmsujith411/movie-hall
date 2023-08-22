@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.model.entity;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.time.OffsetDateTime;
 
 @Data
-public class Screen implements Serializable {
+public class ScreenEntity implements Serializable {
 
     private static final long serialVersionUID = -1589745318601908581L;
 
