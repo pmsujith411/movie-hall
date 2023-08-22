@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: createSchemaAndUser
+      author: sujith
+      changes:
+        - sql:
+            dbms: postgresql
+            sql: |
+              CREATE ROLE admin CREATEDB CREATEROLE LOGIN PASSWORD 'admin';
+              CREATE ROLE mhuser LOGIN PASSWORD 'mhuser';
+              GRANT admin,mhuser TO root;
+              CREATE SCHEMA IF NOT EXISTS moviehall AUTHORIZATION admin;
+              GRANT USAGE ON SCHEMA moviehall TO mhuser;

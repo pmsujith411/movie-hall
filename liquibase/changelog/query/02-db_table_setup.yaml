@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: town_id
-                  type: varchar(20)
+                  type: integer
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -30,7 +30,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: hall_id
-                  type: varchar(20)
+                  type: integer
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -39,7 +39,7 @@ databaseChangeLog:
                   type: varchar(50)
               - column:
                   name: town_id
-                  type: varchar(20)
+                  type: integer
               - column:
                   name: status
                   type: boolean
@@ -63,7 +63,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: screen_id
-                  type: varchar(20)
+                  type: integer
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -72,7 +72,7 @@ databaseChangeLog:
                   type: int
               - column:
                   name: hall_id
-                  type: varchar(20)
+                  type: integer
               - column:
                   name: status
                   type: boolean
@@ -99,28 +99,28 @@ databaseChangeLog:
             columns:
               - column:
                   name: seat_id
-                  type: varchar(20)
+                  type: integer
                   autoIncrement: true
                   constraints:
                     primaryKey: true
               - column:
                   name: screen_id
-                  type: varchar(20)
+                  type: integer
               - column:
                   name: seat_number
                   type: int
               - column:
                   name: seat_type
-                  type: varchar(20)
+                  type: integer
               - column:
                   name: status
                   type: boolean
-                          - column:
-                          name: created_on
-                          type: datetime
-                            - column:
-                                name: updated_on
-                                type: datetime
+              - column:
+                  name: created_on
+                  type: datetime
+              - column:
+                  name: updated_on
+                  type: datetime
             constraints:
               - foreignKey:
                   name: FK_Seat.screen_id
@@ -139,7 +139,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: type_id
-                  type: varchar(20)
+                  type: integer
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -164,7 +164,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: movie_id
-                  type: varchar(20)
+                  type: integer
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -207,16 +207,16 @@ databaseChangeLog:
             columns:
               - column:
                   name: schedule_id
-                  type: varchar(20)
+                  type: integer
                   autoIncrement: true
                   constraints:
                     primaryKey: true
               - column:
                   name: movie_id
-                  type: varchar(20)
+                  type: integer
               - column:
                   name: screen_id
-                  type: varchar(20)
+                  type: integer
               - column:
                   name: from_date
                   type: date
@@ -250,7 +250,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: user_id
-                  type: varchar(20)
+                  type: integer
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -281,25 +281,25 @@ databaseChangeLog:
             columns:
               - column:
                   name: ticket_id
-                  type: varchar(20)
+                  type: integer
                   autoIncrement: true
                   constraints:
                     primaryKey: true
               - column:
                   name: user_id
-                  type: varchar(20)
+                  type: integer
               - column:
                   name: schedule_id
-                  type: varchar(20)
+                  type: integer
               - column:
                   name: payment_id
-                  type: varchar(20)
+                  type: integer
               - column:
                   name: booking_amount
                   type: int
               - column:
                   name: booking_status
-                  type: varchar(20)
+                  type: varchar(50)
               - column:
                   name: show_date
                   type: date
@@ -331,7 +331,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: role_id
-                  type: VARCHAR(20)
+                  type: integer
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -353,25 +353,25 @@ databaseChangeLog:
             columns:
               - column:
                   name: payment_id
-                  type: varchar(20)
+                  type: integer
                   autoIncrement: true
                   constraints:
                     primaryKey: true
               - column:
                   name: user_id
-                  type: varchar(20)
+                  type: integer
               - column:
                   name: ticket_id
-                  type: varchar(20)
+                  type: integer
               - column:
                   name: payment_type
-                  type: varchar(20)
+                  type: varchar(50)
               - column:
                   name: payment_amount
                   type: integer
               - column:
                   name: payment_status
-                  type: varchar(20)
+                  type: varchar(50)
               - column:
                   name: created_on
                   type: datetime
@@ -395,12 +395,12 @@ databaseChangeLog:
             columns:
               - column:
                   name: user_id
-                  type: VARCHAR(20)
+                  type: integer
                   constraints:
                     primaryKey: true
               - column:
                   name: role_id
-                  type: VARCHAR(20)
+                  type: integer
                   constraints:
                     primaryKey: true
               - column:
@@ -420,12 +420,12 @@ databaseChangeLog:
             columns:
               - column:
                   name: ticket_id
-                  type: VARCHAR(20)
+                  type: integer
                   constraints:
                     primaryKey: true
               - column:
                   name: seat_id
-                  type: VARCHAR(20)
+                  type: integer
                   constraints:
                     primaryKey: true
               - column:

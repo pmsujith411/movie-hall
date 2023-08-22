@@ -1,0 +1,35 @@
+version: '3.3'
+
+services:
+  database:
+    image: postgres:latest
+    container_name: mydb
+    environment:
+      POSTGRES_DB: 'moviehall'
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: 'root'
+    ports:
+      - '5432:5432'
+    expose:
+      - '5432'
+    healthcheck:
+          test: ["CMD", "psql", "-d", "moviehall", "-U", "root", "-c", "\\q"]
+          interval: 10s
+          timeout: 10s
+          retries: 10
+  myapplication:
+    container_name: movie-hall-application
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+  liquibase:
+    image: liquibase/liquibase
+    volumes:
+      - ./liquibase/changelog:/liquibase/changelog
+    command: ["--changeLogFile=db.changelog-master.yaml", "--url=jdbc:postgresql://mydb:5432/moviehall?currentSchema=moviehall", "--username=root", "--password=root", "update"]
+    depends_on:
+      - database
