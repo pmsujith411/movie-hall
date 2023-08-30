@@ -1,14 +1,17 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.dto.MovieResponseDto;
+import com.example.demo.annotation.AdminOnly;
 import com.example.demo.model.dto.MovieScheduleRequestDto;
 import com.example.demo.model.dto.ScreenResponseDto;
+import com.example.demo.model.dto.UserDetailsDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,8 +42,13 @@ public class MovieUploadController {
     @ApiResponses({@ApiResponse(code = 200, message = "Successfully retrieved the movies"),
             @ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "movies not found")})
     @GetMapping("/admin/movie")
-    public List<MovieResponseDto> getMovie(@RequestHeader("Authorization") String authorizationHeader) {
-        return null;
+    @AdminOnly
+    public /*List<MovieResponseDto>*/ String getMovie(@RequestHeader("Authorization") String authorizationHeader) {
+
+        Authentication authentication = SecurityContextHolder
+                .getContext().getAuthentication();
+        UserDetailsDto userDetailsDto = (UserDetailsDto)authentication.getPrincipal();
+        return "Hello, " + userDetailsDto + "! This is a protected resource.";
     }
 
     /**

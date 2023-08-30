@@ -1,14 +1,13 @@
 package com.example.demo.enumeration;
 
-public enum PaymentType {
+public enum Roles {
 
-    CREDIT_CARD("CREDIT_CARD"),
-    UPI("UPI"),
-    DEBIT_CARD("DEBIT_CARD");
+    ADMIN("admin"),
+    USER("user");
 
     private String value;
 
-    PaymentType(String value) {
+    Roles(String value) {
         this.value = value;
     }
 

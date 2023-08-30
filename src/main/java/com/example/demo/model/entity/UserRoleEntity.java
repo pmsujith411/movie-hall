@@ -6,13 +6,13 @@ import java.io.Serializable;
 import java.time.OffsetDateTime;
 
 @Data
-public class RoleEntity implements Serializable {
+public class UserRoleEntity implements Serializable {
 
     private static final long serialVersionUID = -7380898272565011463L;
 
-    private String roleId;
+    private Long userId;
 
-    private String roleName;
+    private String role;
 
     private OffsetDateTime createdOn;
 
