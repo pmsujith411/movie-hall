@@ -1,3 +1,20 @@
 server:
   servlet:
     context-path: /moviehall
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 241913106132-0gtkdj2cn7farafqj1ijc0snncbv9snl.apps.googleusercontent.com
+            clientSecret: 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
+  datasource:
+    url: jdbc:postgresql://localhost:5432/moviehall
+    username: root
+    password: root
+    driver-class-name: org.postgresql.Driver
+mybatis:
+  mapper-locations: classpath:mapper/UserRepository.xml
+  configuration:
+    map-underscore-to-camel-case: true
