@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.annotation.AdminOnly;
 import com.example.demo.model.dto.MovieScheduleRequestDto;
 import com.example.demo.model.dto.ScreenResponseDto;
 import com.example.demo.model.dto.UserDetailsDto;
@@ -10,6 +9,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,6 +31,8 @@ import java.util.List;
 @RestController
 @Validated
 @Api(tags = "APIs for uploading movie schedules")
+@RequestMapping("/admin")
+@PreAuthorize("hasRole('ADMIN')")
 public class MovieUploadController {
 
     /**
@@ -41,8 +44,7 @@ public class MovieUploadController {
     @ApiOperation(value = "API to fetch all the releasing movies")
     @ApiResponses({@ApiResponse(code = 200, message = "Successfully retrieved the movies"),
             @ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "movies not found")})
-    @GetMapping("/admin/movie")
-    @AdminOnly
+    @GetMapping("/movie")
     public /*List<MovieResponseDto>*/ String getMovie(@RequestHeader("Authorization") String authorizationHeader) {
 
         Authentication authentication = SecurityContextHolder
@@ -62,7 +64,7 @@ public class MovieUploadController {
     @ApiResponses({@ApiResponse(code = 200, message = "Successfully retrieved the screens"),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 404, message = "movie hall not found")})
-    @GetMapping("/admin/screen/{movieHallId}")
+    @GetMapping("/screen/{movieHallId}")
     public List<ScreenResponseDto> getScreen(@RequestHeader("Authorization") String authorizationHeader,
             @PathVariable("movieHallId") String movieHallId) {
         return null;
@@ -80,7 +82,7 @@ public class MovieUploadController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Internal server error")})
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/admin/movie-upload")
+    @PostMapping("/movie-upload")
     public ResponseEntity<String> uploadMovieSchedule(@RequestHeader("Authorization") String authorizationHeader,
             @RequestBody @Valid List<MovieScheduleRequestDto> movieScheduleRequest) {
         return null;

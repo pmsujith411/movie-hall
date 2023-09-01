@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.enumeration.Roles;
-import com.example.demo.exception.DataBaseException;
+import com.example.demo.exception.DataBaseUpsertException;
 import com.example.demo.model.CustomOAuth2User;
 import com.example.demo.model.entity.UserEntity;
 import com.example.demo.model.entity.UserRoleEntity;
@@ -26,7 +26,11 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public void searchAndInsertUser(final CustomOAuth2User customOAuth2User) {
+    public CustomOAuth2User searchAndInsertUser(final CustomOAuth2User customOAuth2User) {
+
+        CustomOAuth2User customOAuth2UserResponse = new CustomOAuth2User();
+
+        BeanUtils.copyProperties(customOAuth2User, customOAuth2UserResponse);
 
         String role = userRepository.searchUser(customOAuth2User.getEmailId());
 
@@ -53,18 +57,18 @@ public class UserServiceImpl implements UserService {
 
                 userRepository.insertRole(userRoleEntity);
 
-                customOAuth2User.setRole(Roles.USER.getValue());
+                role = Roles.USER.getValue();
 
                 log.info("Successfully created new user and assigned role");
-            }
-            else {
-                throw new DataBaseException("Error while creating new user");
-            }
-        } else {
+            } else {
+                log.error("Error while creating new user");
 
-            log.info("Existing user");
-
-            customOAuth2User.setRole(role);
+                throw new DataBaseUpsertException("Error while creating new user");
+            }
         }
+
+        customOAuth2UserResponse.setRole(role);
+
+        return customOAuth2UserResponse;
     }
 }

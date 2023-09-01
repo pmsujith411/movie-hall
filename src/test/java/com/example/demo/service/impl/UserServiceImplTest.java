@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.enumeration.Roles;
-import com.example.demo.exception.DataBaseException;
+import com.example.demo.exception.DataBaseUpsertException;
 import com.example.demo.model.CustomOAuth2User;
 import com.example.demo.repository.UserRepository;
 import org.junit.Test;
@@ -32,6 +32,8 @@ public class UserServiceImplTest {
 
     private CustomOAuth2User customOAuth2User;
 
+    private CustomOAuth2User customOAuth2UserResponse;
+
     private Map<String, Object> attributes;
 
     /**
@@ -45,9 +47,9 @@ public class UserServiceImplTest {
         customOAuth2User = new CustomOAuth2User(attributes);
 
         when(userRepository.searchUser(anyString())).thenReturn(Roles.USER.getValue());
-        userService.searchAndInsertUser(customOAuth2User);
+        customOAuth2UserResponse = userService.searchAndInsertUser(customOAuth2User);
 
-        assertEquals(Roles.USER.getValue(), customOAuth2User.getRole());
+        assertEquals(Roles.USER.getValue(), customOAuth2UserResponse.getRole());
     }
 
     /**
@@ -63,15 +65,15 @@ public class UserServiceImplTest {
 
         when(userRepository.insertUser(any())).thenReturn(1);
 
-        userService.searchAndInsertUser(customOAuth2User);
+        customOAuth2UserResponse = userService.searchAndInsertUser(customOAuth2User);
 
-        assertEquals(Roles.USER.getValue(), customOAuth2User.getRole());
+        assertEquals(Roles.USER.getValue(), customOAuth2UserResponse.getRole());
     }
 
     /**
      * Test case to test searchAndInsertUser method with new user error case
      */
-    @Test(expected = DataBaseException.class)
+    @Test(expected = DataBaseUpsertException.class)
     public void testNewUser_Error() {
 
         attributes = new HashMap<>();

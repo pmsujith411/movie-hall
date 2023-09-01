@@ -1,8 +1,7 @@
 package com.example.demo.util;
 
-import com.example.demo.enumeration.Roles;
 import com.example.demo.model.CustomOAuth2User;
-import com.example.demo.model.dto.UserDetailsDto;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -34,27 +32,12 @@ public class JwtUtilTest {
     }
 
     /**
-     * Test case to test extractUser method success case
+     * Test case to test expired token
      */
-    @Test
-    public void testExtractUser() {
+    @Test(expected = ExpiredJwtException.class)
+    public void testExpiredToken() {
 
-        UserDetailsDto expectedUserDetailsDto = new UserDetailsDto();
-        expectedUserDetailsDto.setUserName("Sujith P.M");
-        expectedUserDetailsDto.setEmailId("pm.sujith41@gmail.com");
-        expectedUserDetailsDto.setRole(Roles.USER.getValue());
-
-        UserDetailsDto actualUserDetailsDto = jwtUtil.extractUser(token);
-
-        assertEquals(expectedUserDetailsDto, actualUserDetailsDto);
-    }
-
-    /**
-     * Test case to test extractExpiration method with success case
-     */
-    @Test
-    public void testExtractExpiration() {
-        assertNotNull(jwtUtil.extractExpiration(token));
+        jwtUtil.extractUser(token);
     }
 
     /**

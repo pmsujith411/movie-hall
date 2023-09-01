@@ -45,17 +45,6 @@ public class JwtUtil {
     }
 
     /**
-     * Method to extract expiry date
-     *
-     * @param token token
-     * @return expiry date
-     */
-    public Date extractExpiration(String token) {
-        Claims claims = extractAllClaims(token);
-        return claims.getExpiration();
-    }
-
-    /**
      * Method to generate token for the given user details
      *
      * @param customOAuth2User customOAuth2User
@@ -90,10 +79,6 @@ public class JwtUtil {
      * @return status
      */
     public Boolean validateToken(String token) {
-        return (isValid(token) && !isTokenExpired(token));
-    }
-
-    private boolean isValid(String token) {
         try {
             Jwts
                     .parser()
@@ -114,9 +99,5 @@ public class JwtUtil {
                 .setSigningKey(SECRET)
                 .parseClaimsJws(token)
                 .getBody();
-    }
-
-    private Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
     }
 }

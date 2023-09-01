@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -44,14 +43,8 @@ public class AuthenticationController {
 
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(oauth2User.getAttributes());
 
-        try {
-            userService.searchAndInsertUser(customOAuth2User);
-        }
-        catch (Exception e) {
-            log.error("Error while executing searchAndInsertUser method. Error - {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        CustomOAuth2User customOAuth2UserResponse = userService.searchAndInsertUser(customOAuth2User);
 
-        return ResponseEntity.ok(jwtUtil.generateToken(customOAuth2User));
+        return ResponseEntity.ok(jwtUtil.generateToken(customOAuth2UserResponse));
     }
 }

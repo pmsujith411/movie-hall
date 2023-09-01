@@ -2,8 +2,8 @@ package com.example.demo.enumeration;
 
 public enum Roles {
 
-    ADMIN("admin"),
-    USER("user");
+    ADMIN("ROLE_ADMIN"),
+    USER("ROLE_USER");
 
     private String value;
 
