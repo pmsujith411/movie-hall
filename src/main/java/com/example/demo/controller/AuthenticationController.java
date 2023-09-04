@@ -3,10 +3,10 @@ package com.example.demo.controller;
 import com.example.demo.model.CustomOAuth2User;
 import com.example.demo.service.UserService;
 import com.example.demo.util.JwtUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Log4j2
-@Api(tags = "Redirect API for user authentication")
+@Tag(name = "Authentication", description = "Redirect API for user authentication")
 public class AuthenticationController {
 
     @Autowired
@@ -35,9 +35,9 @@ public class AuthenticationController {
      * @param oauth2User oauth2User
      * @return token
      */
-    @ApiOperation(value = "API to generate jwt token for user authentication")
-    @ApiResponses({@ApiResponse(code = 200, message = "Successfully generated the token"),
-            @ApiResponse(code = 500, message = "Internal server error")})
+    @Operation(summary = "API to generate jwt token for user authentication")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully generated the token"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")})
     @GetMapping("/authenticate")
     public ResponseEntity<String> getUserDetails(@AuthenticationPrincipal OAuth2User oauth2User) {
 
