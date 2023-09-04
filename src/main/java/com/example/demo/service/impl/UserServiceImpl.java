@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
         String role = userRepository.searchUser(customOAuth2User.getEmailId());
 
-        if (StringUtils.isEmpty(role)) {
+        if (!StringUtils.hasLength(role)) {
 
             log.info("Creating new user");
 

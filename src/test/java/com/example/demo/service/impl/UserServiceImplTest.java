@@ -4,16 +4,17 @@ import com.example.demo.enumeration.Roles;
 import com.example.demo.exception.DataBaseUpsertException;
 import com.example.demo.model.CustomOAuth2User;
 import com.example.demo.repository.UserRepository;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.when;
@@ -21,7 +22,7 @@ import static org.mockito.Mockito.when;
 /**
  * Test class for UserServiceImpl
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
 
     @Mock
@@ -73,7 +74,7 @@ public class UserServiceImplTest {
     /**
      * Test case to test searchAndInsertUser method with new user error case
      */
-    @Test(expected = DataBaseUpsertException.class)
+    @Test
     public void testNewUser_Error() {
 
         attributes = new HashMap<>();
@@ -81,6 +82,9 @@ public class UserServiceImplTest {
         attributes.put("name", "mockName");
         customOAuth2User = new CustomOAuth2User(attributes);
 
-        userService.searchAndInsertUser(customOAuth2User);
+        Throwable throwable =
+                assertThrows(DataBaseUpsertException.class, () -> userService.searchAndInsertUser(customOAuth2User));
+
+        assertEquals("Error while creating new user", throwable.getMessage());
     }
 }

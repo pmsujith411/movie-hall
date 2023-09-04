@@ -9,6 +9,9 @@ spring:
           google:
             clientId: 241913106132-0gtkdj2cn7farafqj1ijc0snncbv9snl.apps.googleusercontent.com
             clientSecret: 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
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   datasource:
     url: jdbc:postgresql://localhost:5432/moviehall
     username: root

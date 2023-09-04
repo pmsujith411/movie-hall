@@ -1,10 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.dto.TicketReportResponseDto;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @Validated
-@Api(tags = "Admin APIs for managing movie halls")
+@Tag(name = "Admin", description = "Admin APIs for managing movie halls")
 public class AdminController {
 
     /**
@@ -33,9 +33,10 @@ public class AdminController {
      * @param date date
      * @return report
      */
-    @ApiOperation(value = "API to get the reports of sold tickets for the given date and hall")
-    @ApiResponses({@ApiResponse(code = 200, message = "Successfully retrieved the report"),
-            @ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "report not found")})
+    @Operation(summary = "API to get the reports of sold tickets for the given date and hall")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Successfully retrieved the report"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "report not found")})
     @GetMapping("/admin/ticket-report/{hallId}/{date}")
     public List<TicketReportResponseDto> getSoldTicketReport(@RequestHeader("Authorization") String authorizationHeader,
             @PathVariable("hallId") String hallId,
@@ -51,9 +52,10 @@ public class AdminController {
      * @param roleId new role Id
      * @return update status
      */
-    @ApiOperation(value = "API to update user role")
-    @ApiResponses({@ApiResponse(code = 200, message = "Successfully updated the role"),
-            @ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "user not found")})
+    @Operation(summary = "API to update user role")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully updated the role"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "user not found")})
     @PostMapping("/admin/{emailId}/{roleId}")
     public ResponseEntity<String> updateRole(@RequestHeader("Authorization") String authorizationHeader,
             @PathVariable("emailId") String emailId, @PathVariable("roleId") String roleId) {

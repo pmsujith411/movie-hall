@@ -3,10 +3,11 @@ package com.example.demo.controller;
 import com.example.demo.model.dto.MovieScheduleRequestDto;
 import com.example.demo.model.dto.ScreenResponseDto;
 import com.example.demo.model.dto.UserDetailsDto;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -30,7 +30,7 @@ import java.util.List;
  */
 @RestController
 @Validated
-@Api(tags = "APIs for uploading movie schedules")
+@Tag(name = "MovieUpload", description = "APIs for uploading movie schedules")
 @RequestMapping("/admin")
 @PreAuthorize("hasRole('ADMIN')")
 public class MovieUploadController {
@@ -41,14 +41,16 @@ public class MovieUploadController {
      * @param authorizationHeader authorizationHeader
      * @return list of movies
      */
-    @ApiOperation(value = "API to fetch all the releasing movies")
-    @ApiResponses({@ApiResponse(code = 200, message = "Successfully retrieved the movies"),
-            @ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "movies not found")})
+    @Operation(summary = "API to fetch all the releasing movies")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully retrieved the movies"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "movies not found")})
     @GetMapping("/movie")
     public /*List<MovieResponseDto>*/ String getMovie(@RequestHeader("Authorization") String authorizationHeader) {
 
         Authentication authentication = SecurityContextHolder
-                .getContext().getAuthentication();
+                .getContext()
+                .getAuthentication();
         UserDetailsDto userDetailsDto = (UserDetailsDto)authentication.getPrincipal();
         return "Hello, " + userDetailsDto + "! This is a protected resource.";
     }
@@ -60,10 +62,10 @@ public class MovieUploadController {
      * @param movieHallId movieHall Id
      * @return list of screens
      */
-    @ApiOperation(value = "API to fetch all the screens for the given movie hall to upload movie schedule")
-    @ApiResponses({@ApiResponse(code = 200, message = "Successfully retrieved the screens"),
-            @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 404, message = "movie hall not found")})
+    @Operation(summary = "API to fetch all the screens for the given movie hall to upload movie schedule")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully retrieved the screens"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "movie hall not found")})
     @GetMapping("/screen/{movieHallId}")
     public List<ScreenResponseDto> getScreen(@RequestHeader("Authorization") String authorizationHeader,
             @PathVariable("movieHallId") String movieHallId) {
@@ -77,10 +79,10 @@ public class MovieUploadController {
      * @param movieScheduleRequest movie schedule request
      * @return status
      */
-    @ApiOperation(value = "API to upload movie schedules")
-    @ApiResponses({@ApiResponse(code = 201, message = "Successfully created the movie schedule"),
-            @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 500, message = "Internal server error")})
+    @Operation(summary = "API to upload movie schedules")
+    @ApiResponses({@ApiResponse(responseCode = "201", description = "Successfully created the movie schedule"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/movie-upload")
     public ResponseEntity<String> uploadMovieSchedule(@RequestHeader("Authorization") String authorizationHeader,

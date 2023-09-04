@@ -1,924 +1,821 @@
-{
-  "swagger": "2.0",
-  "info": {
-    "description": "Movie Hall Application API reference",
-    "version": "1.0",
-    "title": "Movie Hall Application"
-  },
-  "host": "localhost:8080",
-  "basePath": "/moviehall",
-  "tags": [
-    {
-      "name": "APIs for booking tickets in movie halls",
-      "description": "Movie Hall User Controller"
-    },
-    {
-      "name": "Admin APIs for managing movie halls",
-      "description": "Movie Hall Admin Controller"
-    }
-  ],
-  "paths": {
-    "/admin/movie": {
-      "get": {
-        "tags": [
-          "Admin APIs for managing movie halls"
-        ],
-        "summary": "API to fetch all the releasing movies",
-        "operationId": "getMovieUsingGET",
-        "produces": [
-          "*/*"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Authorization",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully retrieved the movies",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/MovieResponseDto"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "404": {
-            "description": "movies not found"
-          }
-        },
-        "deprecated": false
-      }
-    },
-    "/admin/movie-upload": {
-      "post": {
-        "tags": [
-          "Admin APIs for managing movie halls"
-        ],
-        "summary": "API to upload movie schedules",
-        "operationId": "uploadMovieScheduleUsingPOST",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "*/*"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Authorization",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "movieScheduleRequest",
-            "description": "movieScheduleRequest",
-            "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/MovieScheduleRequestDto"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Successfully created the movie schedule",
-            "schema": {
-              "type": "string"
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        },
-        "deprecated": false
-      }
-    },
-    "/admin/screen/{movieHallId}": {
-      "get": {
-        "tags": [
-          "Admin APIs for managing movie halls"
-        ],
-        "summary": "API to fetch all the screens for the given movie hall to upload movie schedule",
-        "operationId": "getScreenUsingGET",
-        "produces": [
-          "*/*"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Authorization",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "movieHallId",
-            "in": "path",
-            "description": "movieHallId",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully retrieved the screens",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/ScreenResponseDto"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "404": {
-            "description": "movie hall not found"
-          }
-        },
-        "deprecated": false
-      }
-    },
-    "/admin/ticket-report/{hallId}/{date}": {
-      "get": {
-        "tags": [
-          "Admin APIs for managing movie halls"
-        ],
-        "summary": "API to get the reports of sold tickets for the given date and hall",
-        "operationId": "getSoldTicketReportUsingGET",
-        "produces": [
-          "*/*"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Authorization",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "date",
-            "in": "path",
-            "description": "date",
-            "required": true,
-            "type": "string",
-            "format": "date"
-          },
-          {
-            "name": "hallId",
-            "in": "path",
-            "description": "hallId",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully retrieved the report",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/TicketReportResponseDto"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "404": {
-            "description": "report not found"
-          }
-        },
-        "deprecated": false
-      }
-    },
-    "/admin/{emailId}/{roleId}": {
-      "post": {
-        "tags": [
-          "Admin APIs for managing movie halls"
-        ],
-        "summary": "API to update user role",
-        "operationId": "updateRoleUsingPOST",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "*/*"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Authorization",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "emailId",
-            "in": "path",
-            "description": "emailId",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "roleId",
-            "in": "path",
-            "description": "roleId",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully updated the role",
-            "schema": {
-              "type": "string"
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "404": {
-            "description": "user not found"
-          }
-        },
-        "deprecated": false
-      }
-    },
-    "/available-screen/{movieHallId}": {
-      "get": {
-        "tags": [
-          "APIs for booking tickets in movie halls"
-        ],
-        "summary": "API to fetch screens for booking the tickets for the given movie hall",
-        "operationId": "getAvailableScreenUsingGET",
-        "produces": [
-          "*/*"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Authorization",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "date",
-            "in": "query",
-            "description": "date",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "movieHallId",
-            "in": "path",
-            "description": "movieHallId",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully retrieved the screens",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/AvailableScreenResponseDto"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "404": {
-            "description": "movie hall not found"
-          }
-        },
-        "deprecated": false
-      }
-    },
-    "/book-ticket": {
-      "post": {
-        "tags": [
-          "APIs for booking tickets in movie halls"
-        ],
-        "summary": "API to book tickets for the given user",
-        "operationId": "bookTicketUsingPOST",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "*/*"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Authorization",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "ticketBookingRequest",
-            "description": "ticketBookingRequest",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/TicketBookingRequestDto"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully booked the ticket",
-            "schema": {
-              "$ref": "#/definitions/MovieTicketResponseDto"
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        },
-        "deprecated": false
-      }
-    },
-    "/cancel-ticket/{ticketId}": {
-      "post": {
-        "tags": [
-          "APIs for booking tickets in movie halls"
-        ],
-        "summary": "API to cancel a booked ticket for the given user",
-        "operationId": "cancelTicketUsingPOST",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "*/*"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Authorization",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "ticketId",
-            "in": "path",
-            "description": "ticketId",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully cancelled the ticket",
-            "schema": {
-              "type": "string"
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "404": {
-            "description": "ticket not found"
-          }
-        },
-        "deprecated": false
-      }
-    },
-    "/movie-hall/{townId}": {
-      "get": {
-        "tags": [
-          "APIs for booking tickets in movie halls"
-        ],
-        "summary": "API to fetch all movie halls for the given town",
-        "operationId": "getMovieHallUsingGET",
-        "produces": [
-          "*/*"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Authorization",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "townId",
-            "in": "path",
-            "description": "townId",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully retrieved the movie halls",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/MovieHallResponseDto"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "404": {
-            "description": "town not found"
-          }
-        },
-        "deprecated": false
-      }
-    },
-    "/seat/{scheduleId}": {
-      "get": {
-        "tags": [
-          "APIs for booking tickets in movie halls"
-        ],
-        "summary": "API to fetch the available seats for the given screen",
-        "operationId": "getAvailableSeatUsingGET",
-        "produces": [
-          "*/*"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Authorization",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "scheduleId",
-            "in": "path",
-            "description": "scheduleId",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully retrieved the available seats",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/SeatResponseDto"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "404": {
-            "description": "screen not found"
-          }
-        },
-        "deprecated": false
-      }
-    }
-  },
-  "definitions": {
-    "AvailableScreenResponseDto": {
-      "type": "object",
-      "properties": {
-        "movieName": {
-          "type": "string"
-        },
-        "scheduleId": {
-          "type": "string"
-        },
-        "screenNumber": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "showTime": {
-          "$ref": "#/definitions/OffsetTime"
-        }
-      },
-      "title": "AvailableScreenResponseDto"
-    },
-    "Duration": {
-      "type": "object",
-      "properties": {
-        "nano": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "negative": {
-          "type": "boolean"
-        },
-        "seconds": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "units": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/TemporalUnit"
-          }
-        },
-        "zero": {
-          "type": "boolean"
-        }
-      },
-      "title": "Duration"
-    },
-    "LocalTime": {
-      "type": "object",
-      "properties": {
-        "hour": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "minute": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "nano": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "second": {
-          "type": "integer",
-          "format": "int32"
-        }
-      },
-      "title": "LocalTime"
-    },
-    "MovieHallResponseDto": {
-      "type": "object",
-      "properties": {
-        "hallId": {
-          "type": "string"
-        },
-        "hallName": {
-          "type": "string"
-        },
-        "totalScreens": {
-          "type": "integer",
-          "format": "int32"
-        }
-      },
-      "title": "MovieHallResponseDto"
-    },
-    "MovieResponseDto": {
-      "type": "object",
-      "properties": {
-        "genre": {
-          "type": "string"
-        },
-        "language": {
-          "type": "string"
-        },
-        "movieId": {
-          "type": "string"
-        },
-        "movieName": {
-          "type": "string"
-        },
-        "releaseDate": {
-          "type": "string"
-        }
-      },
-      "title": "MovieResponseDto"
-    },
-    "MovieScheduleRequestDto": {
-      "type": "object",
-      "properties": {
-        "fromDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "movieId": {
-          "type": "string"
-        },
-        "screenId": {
-          "type": "string"
-        },
-        "showTime": {
-          "type": "string"
-        },
-        "toDate": {
-          "type": "string",
-          "format": "date-time"
-        }
-      },
-      "title": "MovieScheduleRequestDto"
-    },
-    "MovieTicketResponseDto": {
-      "type": "object",
-      "properties": {
-        "bookingAmount": {
-          "type": "number",
-          "format": "float"
-        },
-        "movieName": {
-          "type": "string"
-        },
-        "screenNumber": {
-          "type": "string"
-        },
-        "seatNumbers": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "showTime": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "ticketId": {
-          "type": "string"
-        }
-      },
-      "title": "MovieTicketResponseDto"
-    },
-    "OffsetTime": {
-      "type": "object",
-      "properties": {
-        "hour": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "minute": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "nano": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "offset": {
-          "$ref": "#/definitions/ZoneOffset"
-        },
-        "second": {
-          "type": "integer",
-          "format": "int32"
-        }
-      },
-      "title": "OffsetTime"
-    },
-    "ScreenResponseDto": {
-      "type": "object",
-      "properties": {
-        "screenId": {
-          "type": "string"
-        },
-        "screenNumber": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "seatCount": {
-          "type": "integer",
-          "format": "int32"
-        }
-      },
-      "title": "ScreenResponseDto"
-    },
-    "SeatResponseDto": {
-      "type": "object",
-      "properties": {
-        "seatId": {
-          "type": "string"
-        },
-        "seatNumber": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "seatType": {
-          "$ref": "#/definitions/SeatTypeResponseDto"
-        }
-      },
-      "title": "SeatResponseDto"
-    },
-    "SeatTypeResponseDto": {
-      "type": "object",
-      "properties": {
-        "rate": {
-          "type": "number",
-          "format": "float"
-        },
-        "type": {
-          "type": "string"
-        }
-      },
-      "title": "SeatTypeResponseDto"
-    },
-    "TemporalUnit": {
-      "type": "object",
-      "properties": {
-        "dateBased": {
-          "type": "boolean"
-        },
-        "duration": {
-          "$ref": "#/definitions/Duration"
-        },
-        "durationEstimated": {
-          "type": "boolean"
-        },
-        "timeBased": {
-          "type": "boolean"
-        }
-      },
-      "title": "TemporalUnit"
-    },
-    "TicketBookingRequestDto": {
-      "type": "object",
-      "properties": {
-        "paymentAmount": {
-          "type": "number",
-          "format": "float"
-        },
-        "paymentId": {
-          "type": "string"
-        },
-        "paymentType": {
-          "type": "string"
-        },
-        "scheduleId": {
-          "type": "string"
-        },
-        "seatIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "title": "TicketBookingRequestDto"
-    },
-    "TicketReportResponseDto": {
-      "type": "object",
-      "properties": {
-        "screenNumber": {
-          "type": "string"
-        },
-        "totalRevenue": {
-          "type": "number",
-          "format": "float"
-        },
-        "totalTicketsSold": {
-          "type": "string"
-        }
-      },
-      "title": "TicketReportResponseDto"
-    },
-    "ZoneOffset": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "rules": {
-          "$ref": "#/definitions/ZoneRules"
-        },
-        "totalSeconds": {
-          "type": "integer",
-          "format": "int32"
-        }
-      },
-      "title": "ZoneOffset"
-    },
-    "ZoneOffsetTransition": {
-      "type": "object",
-      "properties": {
-        "dateTimeAfter": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "dateTimeBefore": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "duration": {
-          "$ref": "#/definitions/Duration"
-        },
-        "gap": {
-          "type": "boolean"
-        },
-        "instant": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "offsetAfter": {
-          "$ref": "#/definitions/ZoneOffset"
-        },
-        "offsetBefore": {
-          "$ref": "#/definitions/ZoneOffset"
-        },
-        "overlap": {
-          "type": "boolean"
-        }
-      },
-      "title": "ZoneOffsetTransition"
-    },
-    "ZoneOffsetTransitionRule": {
-      "type": "object",
-      "properties": {
-        "dayOfMonthIndicator": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "dayOfWeek": {
-          "type": "string",
-          "enum": [
-            "MONDAY",
-            "TUESDAY",
-            "WEDNESDAY",
-            "THURSDAY",
-            "FRIDAY",
-            "SATURDAY",
-            "SUNDAY"
-          ]
-        },
-        "localTime": {
-          "$ref": "#/definitions/LocalTime"
-        },
-        "midnightEndOfDay": {
-          "type": "boolean"
-        },
-        "month": {
-          "type": "string",
-          "enum": [
-            "JANUARY",
-            "FEBRUARY",
-            "MARCH",
-            "APRIL",
-            "MAY",
-            "JUNE",
-            "JULY",
-            "AUGUST",
-            "SEPTEMBER",
-            "OCTOBER",
-            "NOVEMBER",
-            "DECEMBER"
-          ]
-        },
-        "offsetAfter": {
-          "$ref": "#/definitions/ZoneOffset"
-        },
-        "offsetBefore": {
-          "$ref": "#/definitions/ZoneOffset"
-        },
-        "standardOffset": {
-          "$ref": "#/definitions/ZoneOffset"
-        },
-        "timeDefinition": {
-          "type": "string",
-          "enum": [
-            "UTC",
-            "WALL",
-            "STANDARD"
-          ]
-        }
-      },
-      "title": "ZoneOffsetTransitionRule"
-    },
-    "ZoneRules": {
-      "type": "object",
-      "properties": {
-        "fixedOffset": {
-          "type": "boolean"
-        },
-        "transitionRules": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ZoneOffsetTransitionRule"
-          }
-        },
-        "transitions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ZoneOffsetTransition"
-          }
-        }
-      },
-      "title": "ZoneRules"
-    }
-  }
-}
+openapi: 3.0.1
+info:
+  title: Movie Hall Application APIs
+  description: This API exposes endpoints to manage Movie Hall Application.
+  version: '1.0'
+servers:
+  - url: http://localhost:8080/moviehall
+    description: Generated server url
+tags:
+  - name: MovieUpload
+    description: APIs for uploading movie schedules
+  - name: Admin
+    description: Admin APIs for managing movie halls
+  - name: MovieTicket
+    description: APIs for booking and cancelling tickets in movie halls
+  - name: Authentication
+    description: Redirect API for user authentication
+paths:
+  /cancel-ticket/{ticketId}:
+    post:
+      tags:
+        - MovieTicket
+      description: API to cancel a booked ticket for the given user
+      operationId: cancelTicket
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: ticketId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully cancelled the ticket
+          content:
+            '*/*':
+              schema:
+                type: string
+        '400':
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: ticket not found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /book-ticket:
+    post:
+      tags:
+        - MovieTicket
+      description: API to book tickets for the given user
+      operationId: bookTicket
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketBookingRequestDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully booked the ticket
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MovieTicketResponseDto'
+        '400':
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MovieTicketResponseDto'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /admin/{emailId}/{roleId}:
+    post:
+      tags:
+        - Admin
+      summary: API to update user role
+      operationId: updateRole
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: emailId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully updated the role
+          content:
+            '*/*':
+              schema:
+                type: string
+        '400':
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: user not found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /admin/movie-upload:
+    post:
+      tags:
+        - MovieUpload
+      summary: API to upload movie schedules
+      operationId: uploadMovieSchedule
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/MovieScheduleRequestDto'
+        required: true
+      responses:
+        '201':
+          description: Successfully created the movie schedule
+          content:
+            '*/*':
+              schema:
+                type: string
+        '400':
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /seat/{scheduleId}:
+    get:
+      tags:
+        - MovieTicket
+      description: API to fetch the available seats for the given screen
+      operationId: getAvailableSeat
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: scheduleId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved the available seats
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SeatResponseDto'
+        '400':
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SeatResponseDto'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: screen not found
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SeatResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /movie-hall/{townId}:
+    get:
+      tags:
+        - MovieTicket
+      description: API to fetch all movie halls for the given town
+      operationId: getMovieHall
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: townId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved the movie halls
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MovieHallResponseDto'
+        '400':
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MovieHallResponseDto'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: town not found
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MovieHallResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /available-screen/{movieHallId}:
+    get:
+      tags:
+        - MovieTicket
+      description: API to fetch screens for booking the tickets for the given movie hall
+      operationId: getAvailableScreen
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: movieHallId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Successfully retrieved the screens
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AvailableScreenResponseDto'
+        '400':
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AvailableScreenResponseDto'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: movie hall not found
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AvailableScreenResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /authenticate:
+    get:
+      tags:
+        - Authentication
+      summary: API to generate jwt token for user authentication
+      operationId: getUserDetails
+      responses:
+        '200':
+          description: Successfully generated the token
+          content:
+            '*/*':
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /admin/ticket-report/{hallId}/{date}:
+    get:
+      tags:
+        - Admin
+      summary: API to get the reports of sold tickets for the given date and hall
+      operationId: getSoldTicketReport
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: hallId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Successfully retrieved the report
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketReportResponseDto'
+        '400':
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketReportResponseDto'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: report not found
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketReportResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /admin/screen/{movieHallId}:
+    get:
+      tags:
+        - MovieUpload
+      summary: API to fetch all the screens for the given movie hall to upload movie schedule
+      operationId: getScreen
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: movieHallId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved the screens
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScreenResponseDto'
+        '400':
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScreenResponseDto'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: movie hall not found
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScreenResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /admin/movie:
+    get:
+      tags:
+        - MovieUpload
+      summary: API to fetch all the releasing movies
+      operationId: getMovie
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved the movies
+          content:
+            '*/*':
+              schema:
+                type: string
+        '400':
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: movies not found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+components:
+  schemas:
+    ErrorMessage:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+        timestamp:
+          type: string
+          format: date-time
+        message:
+          type: string
+        description:
+          type: string
+    TicketBookingRequestDto:
+      required:
+        - paymentAmount
+        - paymentId
+        - paymentType
+        - scheduleId
+        - seatIds
+      type: object
+      properties:
+        scheduleId:
+          type: string
+        seatIds:
+          type: array
+          items:
+            type: string
+        paymentId:
+          type: string
+        paymentType:
+          type: string
+        paymentAmount:
+          type: number
+          format: float
+    MovieTicketResponseDto:
+      type: object
+      properties:
+        ticketId:
+          type: string
+        movieName:
+          type: string
+        bookingAmount:
+          type: number
+          format: float
+        showTime:
+          type: string
+          format: date-time
+        screenNumber:
+          type: string
+        seatNumbers:
+          type: array
+          items:
+            type: string
+    MovieScheduleRequestDto:
+      required:
+        - fromDate
+        - movieId
+        - screenId
+        - showTime
+        - toDate
+      type: object
+      properties:
+        movieId:
+          type: string
+        screenId:
+          type: string
+        showTime:
+          type: string
+        fromDate:
+          type: string
+          format: date-time
+        toDate:
+          type: string
+          format: date-time
+    SeatResponseDto:
+      type: object
+      properties:
+        seatId:
+          type: string
+        seatNumber:
+          type: integer
+          format: int32
+        seatType:
+          $ref: '#/components/schemas/SeatTypeResponseDto'
+    SeatTypeResponseDto:
+      type: object
+      properties:
+        type:
+          type: string
+        rate:
+          type: number
+          format: float
+    MovieHallResponseDto:
+      type: object
+      properties:
+        hallId:
+          type: string
+        hallName:
+          type: string
+        totalScreens:
+          type: integer
+          format: int32
+    AvailableScreenResponseDto:
+      type: object
+      properties:
+        scheduleId:
+          type: string
+        screenNumber:
+          type: integer
+          format: int32
+        movieName:
+          type: string
+        showTime:
+          type: object
+          properties:
+            offset:
+              type: object
+              properties:
+                totalSeconds:
+                  type: integer
+                  format: int32
+                id:
+                  type: string
+                rules:
+                  type: object
+                  properties:
+                    fixedOffset:
+                      type: boolean
+                    transitions:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          duration:
+                            type: object
+                            properties:
+                              seconds:
+                                type: integer
+                                format: int64
+                              nano:
+                                type: integer
+                                format: int32
+                              negative:
+                                type: boolean
+                              zero:
+                                type: boolean
+                              units:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    dateBased:
+                                      type: boolean
+                                    timeBased:
+                                      type: boolean
+                                    durationEstimated:
+                                      type: boolean
+                          gap:
+                            type: boolean
+                          dateTimeBefore:
+                            type: string
+                            format: date-time
+                          dateTimeAfter:
+                            type: string
+                            format: date-time
+                          instant:
+                            type: string
+                            format: date-time
+                          overlap:
+                            type: boolean
+                    transitionRules:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          month:
+                            type: string
+                            enum:
+                              - JANUARY
+                              - FEBRUARY
+                              - MARCH
+                              - APRIL
+                              - MAY
+                              - JUNE
+                              - JULY
+                              - AUGUST
+                              - SEPTEMBER
+                              - OCTOBER
+                              - NOVEMBER
+                              - DECEMBER
+                          timeDefinition:
+                            type: string
+                            enum:
+                              - UTC
+                              - WALL
+                              - STANDARD
+                          dayOfWeek:
+                            type: string
+                            enum:
+                              - MONDAY
+                              - TUESDAY
+                              - WEDNESDAY
+                              - THURSDAY
+                              - FRIDAY
+                              - SATURDAY
+                              - SUNDAY
+                          dayOfMonthIndicator:
+                            type: integer
+                            format: int32
+                          localTime:
+                            $ref: '#/components/schemas/LocalTime'
+                          midnightEndOfDay:
+                            type: boolean
+            hour:
+              type: integer
+              format: int32
+            minute:
+              type: integer
+              format: int32
+            second:
+              type: integer
+              format: int32
+            nano:
+              type: integer
+              format: int32
+    LocalTime:
+      type: object
+      properties:
+        hour:
+          type: integer
+          format: int32
+        minute:
+          type: integer
+          format: int32
+        second:
+          type: integer
+          format: int32
+        nano:
+          type: integer
+          format: int32
+    TicketReportResponseDto:
+      type: object
+      properties:
+        screenNumber:
+          type: string
+        totalTicketsSold:
+          type: string
+        totalRevenue:
+          type: number
+          format: float
+    ScreenResponseDto:
+      type: object
+      properties:
+        screenId:
+          type: string
+        screenNumber:
+          type: integer
+          format: int32
+        seatCount:
+          type: integer
+          format: int32
