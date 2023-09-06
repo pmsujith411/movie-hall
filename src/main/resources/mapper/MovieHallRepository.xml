@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.MovieHallRepository">
+
+    <insert id="createMovieHall" parameterType="com.example.demo.model.entity.MovieHallEntity">
+        INSERT INTO moviehall."MovieHall"
+            (hall_name,
+            town_id,
+            status,
+            created_on,
+            updated_on)
+        VALUES
+        <foreach collection="list" item="input" separator=",">
+            (#{input.hallName},
+            #{input.townId},
+            #{input.status},
+            #{input.createdOn},
+            #{input.updatedOn})
+        </foreach>
+    </insert>
+
+    <select id="getMovieHall" parameterType="java.lang.Integer" resultType="com.example.demo.model.dto.response.MovieHallResponseDto">
+        SELECT
+            hall_id, hall_name
+        FROM
+            moviehall."MovieHall"
+        WHERE
+            status=true
+        AND
+            town_id=#{townId}
+    </select>
+</mapper>

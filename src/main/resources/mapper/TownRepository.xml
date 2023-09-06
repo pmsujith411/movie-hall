@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.TownRepository">
+
+    <insert id="createTown" parameterType="com.example.demo.model.entity.TownEntity">
+        INSERT INTO moviehall."Town"
+            (town_name,
+            created_on,
+            updated_on)
+        VALUES
+            <foreach collection="townList" item="input" separator=",">
+                (#{input.townName},
+                #{input.createdOn},
+                #{input.updatedOn})
+            </foreach>
+    </insert>
+
+    <select id="getTown" resultType="com.example.demo.model.dto.response.TownResponseDto">
+        SELECT
+            town_id, town_name
+        FROM
+            moviehall."Town";
+    </select>
+
+</mapper>

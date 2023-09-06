@@ -14,7 +14,7 @@ public class MovieHallEntity implements Serializable {
 
     private String hallName;
 
-    private String townId;
+    private Integer townId;
 
     private boolean status;
 

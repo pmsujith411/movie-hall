@@ -1,5 +1,6 @@
 package com.example.demo.exception;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,6 +42,20 @@ public class ControllerExceptionHandler {
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     public ErrorMessage accessDeniedException(AccessDeniedException e, WebRequest webRequest) {
         return new ErrorMessage(HttpStatus.FORBIDDEN.value(), new Date(), e.getMessage(),
+                webRequest.getDescription(false));
+    }
+
+    /**
+     * Exception handler method for handling validation exceptions
+     *
+     * @param e e
+     * @param webRequest webRequest
+     * @return message ExpiredJwtException
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorMessage validationException(ConstraintViolationException e, WebRequest webRequest) {
+        return new ErrorMessage(HttpStatus.BAD_REQUEST.value(), new Date(), e.getMessage(),
                 webRequest.getDescription(false));
     }
 
