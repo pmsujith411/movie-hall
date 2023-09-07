@@ -7,7 +7,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public record MovieRequestDto(@NotBlank String movieName, @NotBlank String genre, @NotNull Integer length,
+public record MovieRequestDto(@NotBlank String movieName, @NotBlank String genre, @NotBlank String length,
                               @NotBlank String language, @NotNull LocalDate releaseDate) implements Serializable {
 
     @Serial

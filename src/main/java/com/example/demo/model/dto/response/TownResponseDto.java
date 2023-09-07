@@ -5,5 +5,5 @@ import java.io.Serializable;
 /**
  * record for town request dto
  */
-public record TownResponseDto(String townId, String townName) implements Serializable {
+public record TownResponseDto(Integer townId, String townName) implements Serializable {
 }

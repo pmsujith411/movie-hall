@@ -23,7 +23,10 @@ public class MovieHallServiceImpl implements MovieHallService {
     @Override
     public void createMovieHall(List<MovieHallRequestDto> movieHallRequestDtoList) {
 
-        List<MovieHallEntity> movieHallEntityList = movieHallRequestDtoList.stream().map(movieHallMapper::dtoToEntity).toList();
+        List<MovieHallEntity> movieHallEntityList = movieHallRequestDtoList
+                .stream()
+                .map(movieHallMapper::dtoToEntity)
+                .toList();
 
         repository.createMovieHall(movieHallEntityList);
     }

@@ -17,7 +17,7 @@ public class MovieEntity implements Serializable {
 
     private String genre;
 
-    private Integer length;
+    private String length;
 
     private String language;
 

@@ -21,7 +21,7 @@ public class MovieServiceImpl implements MovieService {
     private MovieMapper movieMapper;
 
     @Autowired
-    private MovieRepository movieUploadRepository;
+    private MovieRepository movieRepository;
 
     @Override
     public void insertMovie(final List<MovieRequestDto> movieRecordDtoList) {
@@ -31,16 +31,16 @@ public class MovieServiceImpl implements MovieService {
                 .map(movieMapper::dtoToEntity)
                 .toList();
 
-        movieUploadRepository.insertMovie(movieEntityList);
+        movieRepository.insertMovie(movieEntityList);
     }
 
     @Override
     public List<MovieResponseDto> getMovie() {
-        return movieUploadRepository.getMovie();
+        return movieRepository.getMovie();
     }
 
     @Override
     public void deleteMovie(List<Integer> movieIds) {
-        movieUploadRepository.deleteMovie(movieIds);
+        movieRepository.deleteMovie(movieIds);
     }
 }
