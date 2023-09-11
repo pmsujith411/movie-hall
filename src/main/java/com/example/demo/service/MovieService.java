@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.dto.request.MovieRequestDto;
-import com.example.demo.model.dto.response.MovieResponseDto;
+import com.example.demo.model.MovieModel;
 
 import java.util.List;
 
@@ -13,16 +12,16 @@ public interface MovieService {
     /**
      * Service method to insert movies
      *
-     * @param movieRecordDtoList movieRecordDtoList
+     * @param movieModel movieModel
      */
-    void insertMovie(final List<MovieRequestDto> movieRecordDtoList);
+    void insertMovie(final MovieModel movieModel);
 
     /**
      * Service method to fetch movies
      *
      * @return list of movies
      */
-    List<MovieResponseDto> getMovie();
+    List<MovieModel> getMovie();
 
     /**
      * Service method delete movies

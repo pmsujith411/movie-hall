@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.mapper.MovieHallMapper;
 import com.example.demo.model.dto.request.MovieHallRequestDto;
 import com.example.demo.model.dto.response.MovieHallResponseDto;
 import com.example.demo.service.MovieHallService;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,22 +38,27 @@ public class MovieHallController {
     @Autowired
     private MovieHallService movieHallService;
 
+    @Autowired
+    private MovieHallMapper mapper;
+
     /**
      * API to create movie halls
      *
+     * @param townId townId
      * @param authorizationHeader authorizationHeader
-     * @param movieHallList movieHallList
+     * @param movieHallRequestDto movieHallRequestDto
      */
     @Operation(description = "API to create movie halls")
     @ApiResponses({@ApiResponse(responseCode = "201", description = "Success"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "500", description = "Internal server error")})
-    @PostMapping
+    @PostMapping("/{townId}")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
     public void createMovieHall(@RequestHeader("Authorization") String authorizationHeader,
-            @RequestBody @NotNull List<@Valid MovieHallRequestDto> movieHallList) {
-        movieHallService.createMovieHall(movieHallList);
+            @RequestBody @Valid MovieHallRequestDto movieHallRequestDto,
+            @PathVariable("townId") @NotBlank String townId) {
+        movieHallService.createMovieHall(mapper.requestDtoToModel(movieHallRequestDto, townId));
     }
 
     /**
@@ -64,11 +71,11 @@ public class MovieHallController {
     @Operation(description = "API to fetch all movie halls for the given town")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully retrieved the movie halls"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "404", description = "town not found"),
+            @ApiResponse(responseCode = "404", description = "movie hall not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")})
     @GetMapping("/{townId}")
     public List<MovieHallResponseDto> getMovieHall(@RequestHeader("Authorization") String authorizationHeader,
             @PathVariable("townId") @NotNull Integer townId) {
-        return movieHallService.getMovieHall(townId);
+        return mapper.modelToResponseDto(movieHallService.getMovieHall(townId));
     }
 }

@@ -10,16 +10,14 @@
             created_on,
             updated_on)
         VALUES
-        <foreach collection="list" item="input" separator=",">
-            (#{input.hallName},
-            #{input.townId},
-            #{input.status},
-            #{input.createdOn},
-            #{input.updatedOn})
-        </foreach>
+            (#{hallName},
+            #{townId},
+            #{status},
+            #{createdOn},
+            #{updatedOn})
     </insert>
 
-    <select id="getMovieHall" parameterType="java.lang.Integer" resultType="com.example.demo.model.dto.response.MovieHallResponseDto">
+    <select id="getMovieHall" parameterType="java.lang.Integer" resultType="com.example.demo.model.entity.MovieHallEntity">
         SELECT
             hall_id, hall_name
         FROM

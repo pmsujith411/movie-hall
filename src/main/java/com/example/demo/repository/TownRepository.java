@@ -15,14 +15,14 @@ public interface TownRepository {
     /**
      * Method to create towns
      *
-     * @param townList list of town names
+     * @param townEntity town entity
      */
-    void createTown(List<TownEntity> townList);
+    void createTown(TownEntity townEntity);
 
     /**
      * Method to get the towns
      *
      * @return list of towns
      */
-    List<TownResponseDto> getTown();
+    List<TownEntity> getTown();
 }

@@ -12,19 +12,17 @@
             created_on,
             updated_on)
         VALUES
-        <foreach collection="movieList" item="input" separator=",">
-            (#{input.movieName},
-            #{input.genre},
-            #{input.length},
-            #{input.language},
-            #{input.releaseDate},
-            #{input.status},
-            #{input.createdOn},
-            #{input.updatedOn})
-        </foreach>
+            (#{movieName},
+            #{genre},
+            #{length},
+            #{language},
+            #{releaseDate},
+            #{status},
+            #{createdOn},
+            #{updatedOn})
     </insert>
-    
-    <select id="getMovie" resultType="com.example.demo.model.dto.response.MovieResponseDto">
+
+    <select id="getMovie" resultType="com.example.demo.model.entity.MovieEntity">
         SELECT
             movie_id, movie_name, genre, length, "language", release_date
         FROM

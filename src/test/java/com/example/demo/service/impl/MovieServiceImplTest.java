@@ -1,8 +1,8 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.mapper.MovieMapper;
-import com.example.demo.model.dto.request.MovieRequestDto;
-import com.example.demo.model.dto.response.MovieResponseDto;
+import com.example.demo.model.MovieModel;
 import com.example.demo.model.entity.MovieEntity;
 import com.example.demo.repository.MovieRepository;
 import org.junit.jupiter.api.Test;
@@ -20,8 +20,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -46,7 +47,7 @@ public class MovieServiceImplTest {
     private MovieRepository movieRepository;
 
     @Captor
-    private ArgumentCaptor<List<MovieEntity>> listCaptor;
+    private ArgumentCaptor<MovieEntity> objectCaptor;
 
     @Captor
     private ArgumentCaptor<List<Integer>> integerListCaptor;
@@ -59,17 +60,23 @@ public class MovieServiceImplTest {
      */
     @Test
     public void insertMovieTest_Success() {
+
+        MovieModel movieModel = new MovieModel();
+        movieModel.setMovieName(movieName);
+        movieModel.setGenre(genre);
+        movieModel.setLength(length);
+        movieModel.setLanguage(language);
+        movieModel.setReleaseDate(releaseDate);
+
         doNothing()
                 .when(movieRepository)
-                .insertMovie(anyList());
+                .insertMovie(any());
 
-        target.insertMovie(List.of(new MovieRequestDto(movieName, genre, length, language, releaseDate)));
+        target.insertMovie(movieModel);
 
-        verify(movieRepository).insertMovie(listCaptor.capture());
+        verify(movieRepository).insertMovie(objectCaptor.capture());
 
-        MovieEntity capturedEntity = listCaptor
-                .getValue()
-                .get(0);
+        MovieEntity capturedEntity = objectCaptor.getValue();
 
         assertTrue(capturedEntity.isStatus());
         assertNotNull(capturedEntity.getCreatedOn());
@@ -77,18 +84,37 @@ public class MovieServiceImplTest {
     }
 
     /**
-     * Test case for getMovie method
+     * Test case for getMovie method with success
      */
     @Test
     public void getMovieTest_Success() {
-        when(movieRepository.getMovie()).thenReturn(
-                List.of(new MovieResponseDto(1, movieName, genre, length, language, releaseDate)));
 
-        List<MovieResponseDto> responseDtoList = target.getMovie();
+        MovieEntity movieEntity = new MovieEntity();
+        movieEntity.setMovieId(1);
+        movieEntity.setMovieName(movieName);
+        movieEntity.setGenre(genre);
+        movieEntity.setLength(length);
+        movieEntity.setLanguage(language);
+        movieEntity.setReleaseDate(releaseDate);
 
-        assertEquals(1, responseDtoList
+        when(movieRepository.getMovie()).thenReturn(List.of(movieEntity));
+
+        List<MovieModel> movieModelList = target.getMovie();
+
+        assertEquals(1, movieModelList
                 .get(0)
-                .movieId());
+                .getMovieId());
+    }
+
+    /**
+     * Test case for getMovie method with exception
+     */
+    @Test
+    public void getMovieTest_Exception() {
+
+        Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> target.getMovie());
+
+        assertEquals("Unable to fetch the movies", throwable.getMessage());
     }
 
     /**

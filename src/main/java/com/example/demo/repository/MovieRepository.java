@@ -1,6 +1,5 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.dto.response.MovieResponseDto;
 import com.example.demo.model.entity.MovieEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,16 +14,16 @@ public interface MovieRepository {
     /**
      * Repository method to insert movies
      *
-     * @param movieList movieList
+     * @param movieEntity movieEntity
      */
-    void insertMovie(List<MovieEntity> movieList);
+    void insertMovie(MovieEntity movieEntity);
 
     /**
      * Repository method to fetch movies
      *
      * @return list of movies
      */
-    List<MovieResponseDto> getMovie();
+    List<MovieEntity> getMovie();
 
     /**
      * Repository method to delete movies

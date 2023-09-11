@@ -8,14 +8,12 @@
             created_on,
             updated_on)
         VALUES
-            <foreach collection="townList" item="input" separator=",">
-                (#{input.townName},
-                #{input.createdOn},
-                #{input.updatedOn})
-            </foreach>
+            (#{townName},
+            #{createdOn},
+            #{updatedOn})
     </insert>
 
-    <select id="getTown" resultType="com.example.demo.model.dto.response.TownResponseDto">
+    <select id="getTown" resultType="com.example.demo.model.entity.TownEntity">
         SELECT
             town_id, town_name
         FROM

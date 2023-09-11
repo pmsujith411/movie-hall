@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.dto.response.TownResponseDto;
+import com.example.demo.model.TownModel;
 
 import java.util.List;
 
@@ -9,14 +9,14 @@ public interface TownService {
     /**
      * Method to create towns
      *
-     * @param townList list of towns
+     * @param townModel town model
      */
-    void createTown(List<String> townList);
+    void createTown(TownModel townModel);
 
     /**
      * Method to get towns
      *
      * @return list of towns
      */
-    List<TownResponseDto> getTown();
+    List<TownModel> getTown();
 }

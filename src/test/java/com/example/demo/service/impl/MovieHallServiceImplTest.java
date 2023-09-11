@@ -1,7 +1,8 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.mapper.MovieHallMapper;
-import com.example.demo.model.dto.request.MovieHallRequestDto;
+import com.example.demo.model.MovieHallModel;
 import com.example.demo.model.entity.MovieHallEntity;
 import com.example.demo.repository.MovieHallRepository;
 import org.junit.jupiter.api.Test;
@@ -19,9 +20,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Test class for MovieHallServiceImpl
@@ -40,10 +44,7 @@ public class MovieHallServiceImplTest {
     private MovieHallMapper movieHallMapper;
 
     @Captor
-    private ArgumentCaptor<List<MovieHallEntity>> listCaptor;
-
-    @Captor
-    private ArgumentCaptor<Integer> integerCaptor;
+    private ArgumentCaptor<MovieHallEntity> objectCaptor;
 
     @InjectMocks
     private MovieHallServiceImpl target;
@@ -54,18 +55,20 @@ public class MovieHallServiceImplTest {
     @Test
     public void createMovieHallTest_Success() {
 
+        MovieHallModel movieHallModel = new MovieHallModel();
+        movieHallModel.setHallName(HALL_NAME);
+        movieHallModel.setTownId(TOWN_ID);
+
         Mockito
                 .doNothing()
                 .when(repository)
-                .createMovieHall(anyList());
+                .createMovieHall(any());
 
-        target.createMovieHall(List.of(new MovieHallRequestDto(HALL_NAME, TOWN_ID)));
+        target.createMovieHall(movieHallModel);
 
-        verify(repository).createMovieHall(listCaptor.capture());
+        verify(repository).createMovieHall(objectCaptor.capture());
 
-        MovieHallEntity capturedEntity = listCaptor
-                .getValue()
-                .get(0);
+        MovieHallEntity capturedEntity = objectCaptor.getValue();
 
         assertEquals(HALL_NAME, capturedEntity.getHallName());
         assertEquals(TOWN_ID, capturedEntity.getTownId());
@@ -75,14 +78,33 @@ public class MovieHallServiceImplTest {
     }
 
     /**
-     * Test case for getMovieHall method
+     * Test case for getMovieHall method with success
      */
     @Test
-    public void getMovieHallTest() {
-        target.getMovieHall(TOWN_ID);
+    public void getMovieHallTest_Success() {
 
-        verify(repository).getMovieHall(integerCaptor.capture());
+        MovieHallEntity movieHallEntity = new MovieHallEntity();
+        movieHallEntity.setHallId(123);
+        movieHallEntity.setHallName(HALL_NAME);
+        movieHallEntity.setTownId(TOWN_ID);
 
-        assertEquals(TOWN_ID, integerCaptor.getValue());
+        when(repository.getMovieHall(anyInt())).thenReturn(List.of(movieHallEntity));
+
+        List<MovieHallModel> movieHallModelList = target.getMovieHall(TOWN_ID);
+
+        assertEquals(movieHallModelList
+                .get(0)
+                .getTownId(), movieHallEntity.getTownId());
+    }
+
+    /**
+     * Test case for getMovieHall method with exception
+     */
+    @Test
+    public void getMovieHallTest_Exception() {
+
+        Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> target.getMovieHall(TOWN_ID));
+
+        assertEquals("Unable to fetch the movie halls", throwable.getMessage());
     }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.mapper.MovieMapper;
 import com.example.demo.model.dto.MovieScheduleRequestDto;
 import com.example.demo.model.dto.request.MovieRequestDto;
 import com.example.demo.model.dto.response.MovieResponseDto;
@@ -38,6 +39,9 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
+    @Autowired
+    private MovieMapper mapper;
+
     /**
      * API to fetch all the released movies
      *
@@ -50,7 +54,7 @@ public class MovieController {
             @ApiResponse(responseCode = "500", description = "Internal server error")})
     @GetMapping
     public List<MovieResponseDto> getMovie(@RequestHeader("Authorization") String authorizationHeader) {
-        return movieService.getMovie();
+        return mapper.modelToResponseDto(movieService.getMovie());
     }
 
     /**
@@ -76,7 +80,7 @@ public class MovieController {
      * API to insert movies
      *
      * @param authorizationHeader authorizationHeader
-     * @param movieList movieList
+     * @param movieRequestDto movieRequestDto
      */
     @Operation(summary = "API to insert movies")
     @ApiResponses({@ApiResponse(responseCode = "201", description = "Success"),
@@ -86,9 +90,9 @@ public class MovieController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public void insertMovie(@RequestHeader("Authorization") String authorizationHeader,
-            @RequestBody @NotNull List<@Valid MovieRequestDto> movieList) {
+            @RequestBody @Valid MovieRequestDto movieRequestDto) {
 
-        movieService.insertMovie(movieList);
+        movieService.insertMovie(mapper.requestDtoToModel(movieRequestDto));
     }
 
     /**
