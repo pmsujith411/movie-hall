@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.MovieRepository">
+    <insert id="insertMovie" parameterType="com.example.demo.model.entity.MovieEntity">
+        INSERT INTO moviehall."Movie"
+            (movie_name,
+            genre,
+            length,
+            "language",
+            release_date,
+            status,
+            created_on,
+            updated_on)
+        VALUES
+            (#{movieName},
+            #{genre},
+            #{length},
+            #{language},
+            #{releaseDate},
+            #{status},
+            #{createdOn},
+            #{updatedOn})
+    </insert>
+
+    <select id="getMovie" resultType="com.example.demo.model.entity.MovieEntity">
+        SELECT
+            movie_id, movie_name, genre, length, "language", release_date
+        FROM
+            moviehall."Movie"
+        WHERE
+            status=true;
+    </select>
+
+    <update id="deleteMovie" parameterType="java.util.List">
+        UPDATE
+            moviehall."Movie"
+        SET
+            status=false
+        <where>
+            <foreach item="item" index="index" collection="movieIds"
+                     open="movie_id IN (" separator="," close=")" nullable="true">
+                #{item}
+            </foreach>
+        </where>
+    </update>
+</mapper>

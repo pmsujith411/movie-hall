@@ -1,7 +1,8 @@
-package com.example.demo.util;
+package com.example.demo.filter;
 
 import com.example.demo.exception.ErrorMessage;
 import com.example.demo.model.dto.UserDetailsDto;
+import com.example.demo.util.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;

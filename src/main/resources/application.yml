@@ -18,6 +18,6 @@ spring:
     password: root
     driver-class-name: org.postgresql.Driver
 mybatis:
-  mapper-locations: classpath:mapper/UserRepository.xml
+  mapper-locations: classpath:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true

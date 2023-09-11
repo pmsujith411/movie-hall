@@ -3,21 +3,23 @@ package com.example.demo.model.entity;
 import com.example.demo.enumeration.BookingStatus;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
 @Data
 public class MovieTicketEntity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 7654944166912222729L;
 
-    private String ticketId;
+    private Integer ticketId;
 
-    private String userId;
+    private Integer userId;
 
-    private String scheduleId;
+    private Integer scheduleId;
 
-    private String paymentId;
+    private Integer paymentId;
 
     private Float bookingAmount;
 

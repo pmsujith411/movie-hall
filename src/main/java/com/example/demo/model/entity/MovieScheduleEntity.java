@@ -2,6 +2,7 @@ package com.example.demo.model.entity;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
@@ -9,9 +10,10 @@ import java.time.OffsetTime;
 @Data
 public class MovieScheduleEntity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 8402146860559456641L;
 
-    private String scheduleId;
+    private Integer scheduleId;
 
     private String movieId;
 

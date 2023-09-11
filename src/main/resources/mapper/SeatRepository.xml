@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.SeatRepository">
+
+    <insert id="createSeatType" parameterType="com.example.demo.model.entity.SeatTypeEntity">
+        INSERT INTO moviehall."SeatType"
+            ("type",
+            rate,
+            created_on,
+            updated_on)
+        VALUES
+            <foreach collection="list" item="input" separator=",">
+                (#{input.type},
+                #{input.rate},
+                #{input.createdOn},
+                #{input.updatedOn})
+            </foreach>
+    </insert>
+
+    <insert id="createSeat" parameterType="com.example.demo.model.entity.SeatEntity">
+        INSERT INTO moviehall."Seat"
+            (screen_id, seat_number, seat_type, status, created_on, updated_on)
+        VALUES
+            <foreach collection="list" item="input" separator=",">
+
+            </foreach>
+    </insert>
+</mapper>
